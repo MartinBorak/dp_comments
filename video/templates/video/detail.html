@@ -1,0 +1,107 @@
+{% extends 'video/base.html' %}
+
+{% block title %}
+    Video
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ video.title }}</h1>
+
+        <div class="videowrapper">
+            <iframe width="700" height="394" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <h3>Comments</h3>
+
+        <div class="row comment-section">
+            {% for comment in comments %}
+                <form action="{% url 'video:radio_form_view' comment.id %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-md-12">
+                        <div class="row comment scorable">
+                            <div class="col-md-11 comment-author">
+                                <p>
+                                    <strong>
+                                        {{ comment.author }}
+                                    </strong>
+                                </p>
+                                <p>{{ comment.good }} / {{ comment.neutral }} / {{ comment.bad }} / {{ comment.reactions }}</p>
+                                {{ comment.text }}
+                            </div>
+                            <div id="comment_reaction_section" class="col-md-1 scorable-reactions">
+                                <fieldset id="comment_{{ comment.pk }}"></fieldset>
+                            </div>
+                        </div>
+
+                        <div class="replies">
+                            {% for reply in comment.reply_set.all %}
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11">
+                                        <div class="row reply scorable">
+                                            <div class="col-md-11 comment-author">
+                                                <p>
+                                                    <strong>
+                                                        {{ reply.author }}
+                                                    </strong>
+                                                </p>
+                                                <p>{{ reply.good }} / {{ reply.neutral }} / {{ reply.bad }} / {{ reply.reactions }}</p>
+                                                {{ reply.text }}
+                                            </div>
+                                            <div id="reply_reaction_section_{{ forloop.counter }}" class="col-md-1 scorable-reactions">
+                                                <fieldset id="reply_{{ reply.pk }}"></fieldset>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                </form>
+            {% endfor %}
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var comment = '<div class="radio">';
+        comment += '    {{ form.comment_radio_choices.0 }}';
+        comment += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+        comment += '</div>';
+        comment += '<div class="radio">';
+        comment += '    {{ form.comment_radio_choices.1 }}';
+        comment += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+        comment += '</div>';
+        comment += '<div class="radio">';
+        comment += '    {{ form.comment_radio_choices.2 }}';
+        comment += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+        comment += '</div>';
+
+        $('#comment_reaction_section').find('fieldset').html(comment);
+
+
+        {% for field in form %}
+            {% if forloop.counter0 != 0 %}
+                var reply = '<div class="radio">';
+                reply += '    {{ field.0 }}';
+                reply += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+                reply += '</div>';
+                reply += '<div class="radio">';
+                reply += '    {{ field.1 }}';
+                reply += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+                reply += '</div>';
+                reply += '<div class="radio">';
+                reply += '    {{ field.2 }}';
+                reply += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+                reply += '</div>';
+
+                $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(reply);
+            {% endif %}
+        {% endfor %}
+    </script>
+{% endblock %}
