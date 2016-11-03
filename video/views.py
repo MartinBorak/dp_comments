@@ -13,7 +13,7 @@ class IndexView(generic.ListView):
     context_object_name = 'all_videos'
 
     def get_queryset(self):
-        main_set = Video.objects.all()
+        main_set = Video.objects.filter(show=True)
         #subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
         subset = main_set[0:10]
 
