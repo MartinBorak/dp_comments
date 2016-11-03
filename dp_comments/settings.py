@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '72b*yoz4@$!-&#ltr+fe_y0vx&wv2j9%!j^)akkodaoz%r$%40'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [".herokuapp.com"]
 
@@ -31,6 +31,7 @@ ALLOWED_HOSTS = [".herokuapp.com"]
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'video.apps.VideoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
