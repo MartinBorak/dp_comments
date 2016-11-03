@@ -26,7 +26,7 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        comments = context['object'].comment_set.all()
+        comments = context['object'].comment_set.filter(show=True)
         #context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
         context['comments'] = [comments[0]]
         context['form'] = RadioForm(reply_count=len(comments[0].reply_set.all()))
