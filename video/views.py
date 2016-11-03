@@ -64,6 +64,12 @@ def radio_form_view(request, comment_pk=0):
 
     if comment.reactions >= 3:
         comment.show = False
+        video = comment.video
+        show_set = video.comment_set.filter(show=True)
+
+        if not show_set:
+            video.show = False
+            video.save()
 
     comment.save()
 
