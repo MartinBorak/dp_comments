@@ -59,7 +59,12 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    {% if user.is_authenticated %}
+                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-primary btn-block" disabled>Submit</button>
+                    {% endif %}
+
                 </form>
             {% endfor %}
         </div>
