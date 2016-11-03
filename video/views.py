@@ -48,8 +48,6 @@ def radio_form_view(request, comment_pk=0):
         for i in range(0, reply_count):
             values.append(str(form.cleaned_data['reply_' + str(i)]))
 
-    print(values)
-
     comment = Comment.objects.get(pk=comment_pk)
     video = comment.video
     replies = comment.reply_set.all()
