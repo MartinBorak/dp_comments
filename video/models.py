@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Video(models.Model):
     video_id = models.CharField(max_length=50, default='')
     title = models.CharField(max_length=500, default='video')
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pk)
@@ -19,6 +20,7 @@ class Comment(models.Model):
     neutral = models.IntegerField(default=0)
     bad = models.IntegerField(default=0)
     reactions = models.IntegerField(default=0)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pk)
