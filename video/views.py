@@ -14,8 +14,7 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         main_set = Video.objects.filter(show=True)
-        #subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
-        subset = main_set[0:10]
+        subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
 
         return subset
 
@@ -27,8 +26,7 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         comments = context['object'].comment_set.filter(show=True)
-        #context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
-        context['comments'] = [comments[0]]
+        context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
         context['form'] = RadioForm(reply_count=len(comments[0].reply_set.all()))
 
         return context
