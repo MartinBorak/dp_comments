@@ -170,7 +170,6 @@ class LeaderBoardView(generic.ListView):
 
     def get_queryset(self):
         main_set = Worker.objects.all().order_by('score')
-        # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
         subset = main_set[0:10]
 
         return subset
