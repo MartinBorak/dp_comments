@@ -14,6 +14,7 @@ class Command(BaseCommand):
         Comment.objects.all().update(good=0)
         Comment.objects.all().update(neutral=0)
         Comment.objects.all().update(bad=0)
+        Comment.objects.all().update(show=True)
 
     def clear_replies(self):
         Reply.objects.all().update(reactions=0)

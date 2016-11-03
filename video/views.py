@@ -61,6 +61,10 @@ def radio_form_view(request, comment_pk=0):
         return redirect('video:index')  # HOD ERROR
 
     comment.reactions += 1
+
+    if comment.reactions >= 3:
+        comment.show = False
+
     comment.save()
 
     i = 1
