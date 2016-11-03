@@ -17,12 +17,25 @@
 
 {% block body %}
     <div class="container">
-        <ul>
-            {% for worker in workers %}
-                <li>
-                    {{ worker }}
-                </li>
-            {% endfor %}
-        </ul>
+        <h1>LeaderBoard</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for worker in workers %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ worker }}</td>
+                        <td>{{ worker.comments.all }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

@@ -62,6 +62,7 @@ class Worker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     videos = models.ManyToManyField(Video)
     comments = models.ManyToManyField(Comment)
+    score = models.IntegerField(default=0)
 
     def __str__(self):
         return self.user.username

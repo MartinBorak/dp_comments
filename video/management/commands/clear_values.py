@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from video.models import Comment, Reply
+from video.models import Comment, Reply, Worker
 
 
 class Command(BaseCommand):
@@ -8,6 +8,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.clear_comments()
         self.clear_replies()
+        self.clear_workers()
 
     def clear_comments(self):
         Comment.objects.all().update(reactions=0)
@@ -21,3 +22,11 @@ class Command(BaseCommand):
         Reply.objects.all().update(good=0)
         Reply.objects.all().update(neutral=0)
         Reply.objects.all().update(bad=0)
+
+    def clear_workers(self):
+        Worker.objects.all().update(score=0)
+        workers = Worker.objects.all()
+
+        for worker in workers:
+            worker.comments.clear()
+            worker.videos.clear()
