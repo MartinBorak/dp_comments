@@ -71,7 +71,7 @@ def radio_form_view(request, comment_pk=0):
     is_all = True
 
     for c in comment_set:
-        if c not in worker.comments:
+        if c not in worker.comments.all():
             is_all = False
             break
 
