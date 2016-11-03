@@ -4,7 +4,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Video, Comment, Worker, User
+from .models import Video, Comment, Worker
 from .forms import RegisterForm, RadioForm
 
 
