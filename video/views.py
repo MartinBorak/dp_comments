@@ -65,6 +65,7 @@ def radio_form_view(request, comment_pk=0):
 
     worker = request.user.worker
     worker.comments.add(comment)
+    worker.score += 2 + comment.reply_set.count()
 
     comment_set = video.comment_set.all()
 
@@ -77,6 +78,7 @@ def radio_form_view(request, comment_pk=0):
 
     if is_all:
         worker.videos.add(video)
+        worker.score += 5
 
     worker.save()
 
@@ -165,7 +167,7 @@ class LeaderBoardView(generic.ListView):
     context_object_name = 'workers'
 
     def get_queryset(self):
-        main_set = Worker.objects.all()
+        main_set = Worker.objects.all().order_by('score')
         # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
         subset = main_set[0:10]
 
