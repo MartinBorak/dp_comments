@@ -45,7 +45,7 @@
                 {% if user.is_authenticated %}
                     <ul class="nav navbar-nav navbar-right">
                         <li class="">
-                            <a href="#">
+                            <a href="{%  url 'video:profile' %}">
                                 {{ user.get_username }}
                             </a>
                         </li>

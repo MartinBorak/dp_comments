@@ -170,3 +170,7 @@ class LeaderBoardView(generic.ListView):
         subset = main_set[0:10]
 
         return subset
+
+
+class ProfileView(generic.TemplateView):
+    template_name = 'video/profile.html'
