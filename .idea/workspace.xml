@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="41bfbf48-ed34-4871-90d0-6e4eca1024e3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dp_comments/settings.py" afterPath="$PROJECT_DIR$/dp_comments/settings.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/video/management/commands/clear_values.py" afterPath="$PROJECT_DIR$/video/management/commands/clear_values.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/video/models.py" afterPath="$PROJECT_DIR$/video/models.py" />
     </list>
     <ignored path="dp_comments.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,11 +95,21 @@
       <file leaf-file-name="clear_values.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/video/management/commands/clear_values.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+            <state relative-caret-position="378">
+              <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
               <folding>
                 <element signature="e#0#51#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/video/models.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="538">
+              <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -118,18 +130,6 @@
             <state relative-caret-position="0">
               <caret line="0" column="12" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/video/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="54">
-              <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#13#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -158,7 +158,6 @@
         <option value="$PROJECT_DIR$/video/admin.py" />
         <option value="$PROJECT_DIR$/video/fixtures/initial_data.json" />
         <option value="$PROJECT_DIR$/video/templates/video/index.html" />
-        <option value="$PROJECT_DIR$/video/models.py" />
         <option value="$PROJECT_DIR$/video/urls.py" />
         <option value="$PROJECT_DIR$/video/forms.py" />
         <option value="$PROJECT_DIR$/dp_comments/urls.py" />
@@ -173,6 +172,7 @@
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/dp_comments/settings.py" />
         <option value="$PROJECT_DIR$/video/management/commands/sample.py" />
+        <option value="$PROJECT_DIR$/video/models.py" />
         <option value="$PROJECT_DIR$/video/management/commands/clear_values.py" />
       </list>
     </option>
@@ -622,13 +622,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/video/templates/video/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="612">
-          <caret line="34" column="25" selection-start-line="34" selection-start-column="25" selection-end-line="34" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/video/templates/video/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="342">
@@ -686,7 +679,7 @@
         <state relative-caret-position="270">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -763,7 +756,7 @@
         <state relative-caret-position="270">
           <caret line="15" column="0" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -889,13 +882,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/video/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="12" column="28" selection-start-line="12" selection-start-column="28" selection-end-line="12" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/video/tests.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -926,7 +912,7 @@
         <state relative-caret-position="54">
           <caret line="10" column="29" selection-start-line="10" selection-start-column="29" selection-end-line="10" selection-end-column="29" />
           <folding>
-            <element signature="e#0#13#0" expanded="true" />
+            <element signature="e#0#13#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -999,10 +985,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/video/management/commands/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/video/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="538">
+          <caret line="34" column="26" selection-start-line="34" selection-start-column="26" selection-end-line="34" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/video/management/commands/clear_values.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="31" selection-start-line="17" selection-start-column="31" selection-end-line="17" selection-end-column="31" />
+        <state relative-caret-position="378">
+          <caret line="21" column="41" selection-start-line="21" selection-start-column="41" selection-end-line="21" selection-end-column="41" />
           <folding>
             <element signature="e#0#51#0" expanded="true" />
           </folding>

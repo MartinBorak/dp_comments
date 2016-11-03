@@ -23,6 +23,13 @@ class Comment(models.Model):
     def __str__(self):
         return str(self.pk)
 
+    def clear(self):
+        self.reactions = 0
+        self.good = 0
+        self.neutral = 0
+        self.bad = 0
+        self.save()
+
 
 class Reply(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
@@ -37,6 +44,13 @@ class Reply(models.Model):
 
     def __str__(self):
         return str(self.pk)
+
+    def clear(self):
+        self.reactions = 0
+        self.good = 0
+        self.neutral = 0
+        self.bad = 0
+        self.save()
 
     class Meta:
         ordering = ['published_at']

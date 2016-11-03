@@ -10,21 +10,13 @@ class Command(BaseCommand):
         self.clear_replies()
 
     def clear_comments(self):
-        comments = Comment.objects.all()
-
-        for comment in comments:
-            comment.reactions = 0
-            comment.good = 0
-            comment.neutral = 0
-            comment.bad = 0
-            comment.save()
+        Comment.objects.all().update(reactions=0)
+        Comment.objects.all().update(good=0)
+        Comment.objects.all().update(neutral=0)
+        Comment.objects.all().update(bad=0)
 
     def clear_replies(self):
-        replies = Reply.objects.all()
-
-        for reply in replies:
-            reply.reactions = 0
-            reply.good = 0
-            reply.neutral = 0
-            reply.bad = 0
-            reply.save()
+        Reply.objects.all().update(reactions=0)
+        Reply.objects.all().update(good=0)
+        Reply.objects.all().update(neutral=0)
+        Reply.objects.all().update(bad=0)
