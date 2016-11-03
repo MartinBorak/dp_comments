@@ -13,7 +13,9 @@ class IndexView(generic.ListView):
     context_object_name = 'all_videos'
 
     def get_queryset(self):
-        main_set = Video.objects.filter(show=True)
+        user = self.request.user
+        user_videos = user.worker.videos.all()
+        main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos)
         subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
 
         return subset
@@ -25,7 +27,9 @@ class DetailView(generic.DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
-        comments = context['object'].comment_set.filter(show=True)
+        user = self.request.user
+        user_comments = user.worker.comments.all()
+        comments = context['object'].comment_set.filter(show=True).exclude(pk__in=user_comments)
         context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
         context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
 
@@ -100,7 +104,7 @@ def radio_form_view(request, comment_pk=0):
         elif values[i] == 'opt2':
             reply.bad += 1
         else:
-            return redirect('video:index')# HOD ERROR
+            return redirect('video:index')
 
         reply.reactions += 1
         replies[i - 1].save()
