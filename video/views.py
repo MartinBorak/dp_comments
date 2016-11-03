@@ -4,7 +4,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Video, Comment, Worker
+from .models import Video, Comment, Worker, User
 from .forms import RegisterForm, RadioForm
 
 
@@ -49,6 +49,7 @@ def radio_form_view(request, comment_pk=0):
     print(values)
 
     comment = Comment.objects.get(pk=comment_pk)
+    video = comment.video
     replies = comment.reply_set.all()
 
     if values[0] == 'opt0':
@@ -62,9 +63,25 @@ def radio_form_view(request, comment_pk=0):
 
     comment.reactions += 1
 
+    worker = request.user.worker
+    worker.comments.add(comment)
+
+    comment_set = video.comment_set.all()
+
+    is_all = True
+
+    for c in comment_set:
+        if c not in worker.comments:
+            is_all = False
+            break
+
+    if is_all:
+        worker.videos.add(video)
+
+    worker.save()
+
     if comment.reactions >= 3:
         comment.show = False
-        video = comment.video
         show_set = video.comment_set.filter(show=True)
 
         if not show_set:
