@@ -60,6 +60,7 @@ class Reply(models.Model):
 
 class Worker(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    videos = models.ManyToManyField(Video)
     comments = models.ManyToManyField(Comment)
 
     def __str__(self):
