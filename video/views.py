@@ -4,7 +4,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Video, Comment
+from .models import Video, Comment, Worker
 from .forms import RegisterForm, RadioForm
 
 
@@ -141,3 +141,15 @@ class UserLoginView(View):
 def logout_view(request):
     logout(request)
     return redirect('video:login')
+
+
+class LeaderBoardView(generic.ListView):
+    template_name = 'video/leaderboard.html'
+    context_object_name = 'workers'
+
+    def get_queryset(self):
+        main_set = Worker.objects.all()
+        # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
+        subset = main_set[0:10]
+
+        return subset

@@ -10,5 +10,6 @@ urlpatterns = [
     url(r'^login/$', views.UserLoginView.as_view(), name='login'),
     url(r'^logout/$', views.logout_view, name='logout'),
     url(r'^(?P<pk>[0-9]+)/$', views.DetailView.as_view(), name='detail'),
-    url('^radio_form/(?P<comment_pk>[0-9]+)$', require_POST(views.radio_form_view), name='radio_form_view'),
+    url(r'^radio_form/(?P<comment_pk>[0-9]+)$', require_POST(views.radio_form_view), name='radio_form_view'),
+    url(r'^leaderboard/$', views.LeaderBoardView.as_view(), name='leaderboard'),
 ]
