@@ -16,6 +16,9 @@ class Author(models.Model):
     name = models.CharField(max_length=500)
     completion_rate = models.FloatField(default=0.0)
 
+    def __str__(self):
+        return str(self.name)
+
 
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
@@ -49,6 +52,7 @@ class Reply(models.Model):
     bad = models.IntegerField(default=0)
     reactions = models.IntegerField(default=0)
     published_at = models.DateTimeField(default=None)
+    show = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pk)

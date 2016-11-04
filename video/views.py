@@ -94,6 +94,7 @@ def radio_form_view(request, comment_pk=0):
 
     if comment.reactions >= 3:
         comment.show = False
+        comment.reply_set.update(show=False)
         show_set = video.comment_set.filter(show=True)
 
         if not show_set:
@@ -101,6 +102,13 @@ def radio_form_view(request, comment_pk=0):
             video.save()
 
     comment.save()
+
+    author = comment.author
+    author.completion_rate = (author.comment_set.filter(show=False).count() +
+                              author.reply_set.filter(show=False).count()) / \
+                             (author.comment_set.count() +
+                              author.reply_set.count())
+    author.save()
 
     i = 1
 
@@ -116,6 +124,13 @@ def radio_form_view(request, comment_pk=0):
 
         reply.reactions += 1
         replies[i - 1].save()
+
+        author = reply.author
+        author.completion_rate = (author.comment_set.filter(show=False).count() +
+                                  author.reply_set.filter(show=False).count()) / \
+                                 (author.comment_set.count() +
+                                  author.reply_set.count())
+        author.save()
 
         i += 1
 
