@@ -6,6 +6,7 @@ class Video(models.Model):
     video_id = models.CharField(max_length=50, default='')
     title = models.CharField(max_length=500)
     show = models.BooleanField(default=True)
+    avg_completion_rate = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.pk)

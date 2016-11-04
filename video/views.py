@@ -4,7 +4,7 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Video, Comment, Worker
+from .models import Video, Comment, Worker, Author
 from .forms import RegisterForm, RadioForm
 
 
@@ -17,11 +17,12 @@ class IndexView(generic.ListView):
 
         if user.is_authenticated():
             user_videos = user.worker.videos.all()
-            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos)
+            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos).order_by('-avg_completion_rate')
         else:
-            main_set = Video.objects.filter(show=True)
+            main_set = Video.objects.filter(show=True).order_by('-avg_completion_rate')
 
-        subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
+        # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
+        subset = main_set[:10]
 
         return subset
 
@@ -133,6 +134,27 @@ def radio_form_view(request, comment_pk=0):
         author.save()
 
         i += 1
+
+    video = comment.video
+
+    authors = []
+    authors += video.comment_set.all().values_list('author', flat=True)
+
+    for comment in video.comment_set.all():
+        authors += comment.reply_set.all().values_list('author', flat=True)
+
+    authors_set = set(authors)
+
+    comp_rate = 0.0
+
+    for a in authors_set:
+        comp_rate += Author.objects.get(pk=a).completion_rate
+
+    video.avg_completion_rate = comp_rate / len(authors_set)
+    video.save()
+
+    print(authors_set)
+    print(comp_rate)
 
     return redirect('video:index')
 
