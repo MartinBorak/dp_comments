@@ -14,8 +14,13 @@ class IndexView(generic.ListView):
 
     def get_queryset(self):
         user = self.request.user
-        user_videos = user.worker.videos.all()
-        main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos)
+
+        if user.is_authenticated():
+            user_videos = user.worker.videos.all()
+            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos)
+        else:
+            main_set = Video.objects.filter(show=True)
+
         subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
 
         return subset
@@ -28,8 +33,13 @@ class DetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailView, self).get_context_data(**kwargs)
         user = self.request.user
-        user_comments = user.worker.comments.all()
-        comments = context['object'].comment_set.filter(show=True).exclude(pk__in=user_comments)
+
+        if user.is_authenticated():
+            user_comments = user.worker.comments.all()
+            comments = context['object'].comment_set.filter(show=True).exclude(pk__in=user_comments)
+        else:
+            comments = context['object'].comment_set.filter(show=True)
+
         context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
         context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
 
@@ -59,7 +69,7 @@ def radio_form_view(request, comment_pk=0):
     elif values[0] == 'opt2':
         comment.bad += 1
     else:
-        return redirect('video:index')  # HOD ERROR
+        return redirect('video:index')
 
     comment.reactions += 1
 

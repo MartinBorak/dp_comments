@@ -4,18 +4,24 @@ from django.contrib.auth.models import User
 
 class Video(models.Model):
     video_id = models.CharField(max_length=50, default='')
-    title = models.CharField(max_length=500, default='video')
+    title = models.CharField(max_length=500)
     show = models.BooleanField(default=True)
 
     def __str__(self):
         return str(self.pk)
 
 
+class Author(models.Model):
+    author_id = models.CharField(max_length=50)
+    name = models.CharField(max_length=500)
+    completion_rate = models.FloatField(default=0.0)
+
+
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
     comment_id = models.CharField(max_length=50, default='')
     text = models.TextField(max_length=500)
-    author = models.CharField(max_length=500)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     good = models.IntegerField(default=0)
     neutral = models.IntegerField(default=0)
     bad = models.IntegerField(default=0)
@@ -37,7 +43,7 @@ class Reply(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     reply_id = models.CharField(max_length=50, default='')
     text = models.TextField()
-    author = models.CharField(max_length=500)
+    author = models.ForeignKey(Author, on_delete=models.CASCADE)
     good = models.IntegerField(default=0)
     neutral = models.IntegerField(default=0)
     bad = models.IntegerField(default=0)

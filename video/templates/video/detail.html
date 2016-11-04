@@ -23,7 +23,7 @@
                             <div class="col-md-11 comment-author">
                                 <p>
                                     <strong>
-                                        {{ comment.author }}
+                                        {{ comment.author.name }}
                                     </strong>
                                 </p>
                                 <p>{{ comment.good }} / {{ comment.neutral }} / {{ comment.bad }} / {{ comment.reactions }}</p>
@@ -43,7 +43,7 @@
                                             <div class="col-md-11 comment-author">
                                                 <p>
                                                     <strong>
-                                                        {{ reply.author }}
+                                                        {{ reply.author.name }}
                                                     </strong>
                                                 </p>
                                                 <p>{{ reply.good }} / {{ reply.neutral }} / {{ reply.bad }} / {{ reply.reactions }}</p>
