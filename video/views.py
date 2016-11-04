@@ -5,8 +5,9 @@ from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Video, Comment, Worker, Author
+from .models import Video, Comment, Worker
 from .forms import RegisterForm, RadioForm
+from six import moves
 
 
 class IndexView(generic.ListView):
@@ -22,8 +23,7 @@ class IndexView(generic.ListView):
         else:
             main_set = Video.objects.filter(show=True).order_by('-priority')
 
-        # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
-        subset = main_set[:10]
+        subset = [main_set[i] for i in random.sample(moves.range(30), 10)]
 
         return subset
 
@@ -42,7 +42,7 @@ class DetailView(generic.DetailView):
         else:
             comments = context['object'].comment_set.filter(show=True)
 
-        context['comments'] = [comments[i] for i in sorted(random.sample(range(len(comments)), 1))]
+        context['comments'] = [comments[i] for i in random.sample(moves.range(len(comments)), 1)]
         context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
 
         return context
