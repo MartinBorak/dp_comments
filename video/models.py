@@ -6,7 +6,8 @@ class Video(models.Model):
     video_id = models.CharField(max_length=50, default='')
     title = models.CharField(max_length=500)
     show = models.BooleanField(default=True)
-    avg_completion_rate = models.FloatField(default=0.0)
+    # avg_completion_rate = models.FloatField(default=0.0)
+    priority = models.IntegerField(default=0)
 
     def __str__(self):
         return str(self.pk)
@@ -15,7 +16,7 @@ class Video(models.Model):
 class Author(models.Model):
     author_id = models.CharField(max_length=50)
     name = models.CharField(max_length=500)
-    completion_rate = models.FloatField(default=0.0)
+    # completion_rate = models.FloatField(default=0.0)
 
     def __str__(self):
         return str(self.name)

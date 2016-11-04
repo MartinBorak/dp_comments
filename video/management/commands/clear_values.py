@@ -1,14 +1,19 @@
 from django.core.management.base import BaseCommand
-from video.models import Comment, Reply, Worker
+from video.models import Video, Author, Comment, Reply, Worker
 
 
 class Command(BaseCommand):
     help = "Clears all values in comments and replies."
 
     def handle(self, *args, **options):
+        self.clear_videos()
         self.clear_comments()
         self.clear_replies()
         self.clear_workers()
+
+    def clear_videos(self):
+        Video.objects.all().update(show=True)
+        Video.objects.all().update(priority=0.0)
 
     def clear_comments(self):
         Comment.objects.all().update(reactions=0)

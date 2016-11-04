@@ -1,4 +1,5 @@
 import random
+from django.db.models import F
 from django.views import generic
 from django.views.generic import View
 from django.shortcuts import render, redirect
@@ -17,9 +18,9 @@ class IndexView(generic.ListView):
 
         if user.is_authenticated():
             user_videos = user.worker.videos.all()
-            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos).order_by('-avg_completion_rate')
+            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos).order_by('-priority')
         else:
-            main_set = Video.objects.filter(show=True).order_by('-avg_completion_rate')
+            main_set = Video.objects.filter(show=True).order_by('-priority')
 
         # subset = [main_set[i] for i in sorted(random.sample(range(len(main_set)), 10))]
         subset = main_set[:10]
@@ -74,6 +75,7 @@ def radio_form_view(request, comment_pk=0):
 
     comment.reactions += 1
 
+    # SET WORKER SCORE
     worker = request.user.worker
     worker.comments.add(comment)
     worker.score += 2 + comment.reply_set.count()
@@ -93,9 +95,39 @@ def radio_form_view(request, comment_pk=0):
 
     worker.save()
 
+    # DO NOT DISPLAY COMMENTS WITH MORE THAN 3 REACTIONS
     if comment.reactions >= 3:
         comment.show = False
+
+        author = comment.author
+        authors_comments = author.comment_set.all()
+        authors_replies = author.reply_set.all()
+        author_videos = []
+
+        for c in authors_comments:
+            author_videos.append(c.video.pk)
+
+        for r in authors_replies:
+            author_videos.append(r.comment.video.pk)
+
+        Video.objects.filter(pk__in=author_videos).update(priority=F('priority') - 3)
+
         comment.reply_set.update(show=False)
+
+        for rep in comment.reply_set.all():
+            author = rep.author
+            authors_comments = author.comment_set.all()
+            authors_replies = author.reply_set.all()
+            author_videos = []
+
+            for c in authors_comments:
+                author_videos.append(c.video.pk)
+
+            for r in authors_replies:
+                author_videos.append(r.comment.video.pk)
+
+            Video.objects.filter(pk__in=author_videos).update(priority=F('priority') - 3)
+
         show_set = video.comment_set.filter(show=True)
 
         if not show_set:
@@ -104,12 +136,19 @@ def radio_form_view(request, comment_pk=0):
 
     comment.save()
 
+    # INCREASE PRIORITY OF VIDEOS WITH AUTHOR
     author = comment.author
-    author.completion_rate = (author.comment_set.filter(show=False).count() +
-                              author.reply_set.filter(show=False).count()) / \
-                             (author.comment_set.count() +
-                              author.reply_set.count())
-    author.save()
+    authors_comments = author.comment_set.all()
+    authors_replies = author.reply_set.all()
+    author_videos = []
+
+    for c in authors_comments:
+        author_videos.append(c.video.pk)
+
+    for r in authors_replies:
+        author_videos.append(r.comment.video.pk)
+
+    Video.objects.filter(pk__in=author_videos).update(priority=F('priority') + 1)
 
     i = 1
 
@@ -127,34 +166,19 @@ def radio_form_view(request, comment_pk=0):
         replies[i - 1].save()
 
         author = reply.author
-        author.completion_rate = (author.comment_set.filter(show=False).count() +
-                                  author.reply_set.filter(show=False).count()) / \
-                                 (author.comment_set.count() +
-                                  author.reply_set.count())
-        author.save()
+        authors_comments = author.comment_set.all()
+        authors_replies = author.reply_set.all()
+        author_videos = []
+
+        for c in authors_comments:
+            author_videos.append(c.video.pk)
+
+        for r in authors_replies:
+            author_videos.append(r.comment.video.pk)
+
+        Video.objects.filter(pk__in=author_videos).update(priority=F('priority') + 1)
 
         i += 1
-
-    video = comment.video
-
-    authors = []
-    authors += video.comment_set.all().values_list('author', flat=True)
-
-    for comment in video.comment_set.all():
-        authors += comment.reply_set.all().values_list('author', flat=True)
-
-    authors_set = set(authors)
-
-    comp_rate = 0.0
-
-    for a in authors_set:
-        comp_rate += Author.objects.get(pk=a).completion_rate
-
-    video.avg_completion_rate = comp_rate / len(authors_set)
-    video.save()
-
-    print(authors_set)
-    print(comp_rate)
 
     return redirect('video:index')
 
@@ -214,7 +238,7 @@ class LeaderBoardView(generic.ListView):
     context_object_name = 'workers'
 
     def get_queryset(self):
-        main_set = Worker.objects.all().order_by('score')
+        main_set = Worker.objects.all().order_by('-score')
         subset = main_set[0:10]
 
         return subset
