@@ -61,8 +61,6 @@
 
                     {% if user.is_authenticated %}
                         <button type="submit" class="btn btn-primary btn-block">Submit</button>
-                    {% else %}
-                        <button type="submit" class="btn btn-primary btn-block" disabled>Submit</button>
                     {% endif %}
 
                 </form>
@@ -73,40 +71,42 @@
 {% endblock %}
 
 {% block js %}
-    <script>
-        var comment = '<div class="radio">';
-        comment += '    {{ form.comment_radio_choices.0 }}';
-        comment += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
-        comment += '</div>';
-        comment += '<div class="radio">';
-        comment += '    {{ form.comment_radio_choices.1 }}';
-        comment += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
-        comment += '</div>';
-        comment += '<div class="radio">';
-        comment += '    {{ form.comment_radio_choices.2 }}';
-        comment += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
-        comment += '</div>';
+    {% if user.is_authenticated %}
+        <script>
+            var comment = '<div class="radio">';
+            comment += '    {{ form.comment_radio_choices.0 }}';
+            comment += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+            comment += '</div>';
+            comment += '<div class="radio">';
+            comment += '    {{ form.comment_radio_choices.1 }}';
+            comment += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+            comment += '</div>';
+            comment += '<div class="radio">';
+            comment += '    {{ form.comment_radio_choices.2 }}';
+            comment += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+            comment += '</div>';
 
-        $('#comment_reaction_section').find('fieldset').html(comment);
+            $('#comment_reaction_section').find('fieldset').html(comment);
 
 
-        {% for field in form %}
-            {% if forloop.counter0 != 0 %}
-                var reply = '<div class="radio">';
-                reply += '    {{ field.0 }}';
-                reply += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
-                reply += '</div>';
-                reply += '<div class="radio">';
-                reply += '    {{ field.1 }}';
-                reply += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
-                reply += '</div>';
-                reply += '<div class="radio">';
-                reply += '    {{ field.2 }}';
-                reply += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
-                reply += '</div>';
+            {% for field in form %}
+                {% if forloop.counter0 != 0 %}
+                    var reply = '<div class="radio">';
+                    reply += '    {{ field.0 }}';
+                    reply += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+                    reply += '</div>';
+                    reply += '<div class="radio">';
+                    reply += '    {{ field.1 }}';
+                    reply += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+                    reply += '</div>';
+                    reply += '<div class="radio">';
+                    reply += '    {{ field.2 }}';
+                    reply += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+                    reply += '</div>';
 
-                $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(reply);
-            {% endif %}
-        {% endfor %}
-    </script>
+                    $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(reply);
+                {% endif %}
+            {% endfor %}
+        </script>
+    {% endif %}
 {% endblock %}
