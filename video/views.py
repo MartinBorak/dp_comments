@@ -189,6 +189,8 @@ class UserRegisterView(View):
 
     def get(self, request):
         form = self.form_class(None)
+        form.fields['username'].label = 'Prihlasovacie meno'
+        form.fields['password'].label = 'Heslo'
         return render(request, self.template_name, {'form': form})
 
     def post(self, request):
@@ -217,6 +219,8 @@ class UserLoginView(View):
 
     def get(self, request):
         auth_form = AuthenticationForm(None, request.POST or None)
+        auth_form.fields['username'].label = 'Prihlasovacie meno'
+        auth_form.fields['password'].label = 'Heslo'
         return render(request, self.template_name, {'form': auth_form})
 
     def post(self, request):

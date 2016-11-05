@@ -12,7 +12,7 @@
             <iframe width="700" height="394" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0" allowfullscreen></iframe>
         </div>
 
-        <h3>Comments</h3>
+        <h3>Komentár</h3>
 
         <div class="row comment-section">
             {% for comment in comments %}
@@ -60,7 +60,7 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <button type="submit" class="btn btn-primary btn-block">Submit</button>
+                        <button type="submit" class="btn btn-primary btn-block">Odoslať</button>
                     {% endif %}
 
                 </form>

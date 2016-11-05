@@ -1,10 +1,14 @@
 {% extends 'video/base.html' %}
 
+{% block title %}
+    LeaderBoard
+{% endblock %}
+
 {% block active_list %}
     <ul class="nav navbar-nav">
         <li class="">
             <a href="{%  url 'video:index' %}">
-                <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp; Videos
+                <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp; Video
             </a>
         </li>
         <li class="active">
@@ -23,8 +27,8 @@
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Name</th>
-                    <th>Score</th>
+                    <th>Meno</th>
+                    <th>Skóre</th>
                 </tr>
             </thead>
             <tbody>

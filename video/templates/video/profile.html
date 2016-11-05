@@ -1,10 +1,14 @@
 {% extends 'video/base.html' %}
 
+{% block title %}
+    Profil | {{ user.username }}
+{% endblock %}
+
 {% block active_list %}
     <ul class="nav navbar-nav">
         <li class="">
             <a href="{%  url 'video:index' %}">
-                <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp; Videos
+                <span class="glyphicon glyphicon-facetime-video" aria-hidden="true"></span>&nbsp; Video
             </a>
         </li>
         <li class="">
@@ -18,8 +22,8 @@
 {% block body %}
     <div class="container">
         <h1>{{ user.username }}</h1>
-        <p><strong>Score: </strong>{{ user.worker.score }}</p>
-        <p><strong>Comments handled: </strong>{{ user.worker.comments.count }}</p>
-        <p><strong>Videos finished: </strong>{{ user.worker.videos.count }}</p>
+        <p><strong>Skóre: </strong>{{ user.worker.score }}</p>
+        <p><strong>Označkované komentáre: </strong>{{ user.worker.comments.count }}</p>
+        <p><strong>Skompletizované videá: </strong>{{ user.worker.videos.count }}</p>
     </div>
 {% endblock %}

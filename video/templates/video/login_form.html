@@ -1,5 +1,7 @@
 {% extends 'video/base.html' %}
-{% block title %}Login{% endblock %}
+{% block title %}
+    Prihlásenie
+{% endblock %}
 
 {% block body %}
     <div class="container-fluid">
@@ -9,7 +11,7 @@
             <div class="col-sm-offset-4 col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        <h3>Login</h3>
+                        <h3>Prihlásenie používateľa</h3>
                         {% if error_message %}
                             <p><strong>{{ error_message }}</strong></p>
                         {% endif %}
@@ -18,7 +20,7 @@
                             {% include 'video/form_template.html' %}
                             <div class="form-group">
                                 <div class="col-sm-offset-6 col-sm-2">
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success">Prihlásiť</button>
                                 </div>
                             </div>
                         </form>
