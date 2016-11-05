@@ -198,6 +198,7 @@ class UserRegisterView(View):
             user = form.save(commit=False)
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
+            user.email = 'generic@email.com'
             user.set_password(password)
             user.save()
 
