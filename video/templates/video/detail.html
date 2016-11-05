@@ -60,51 +60,38 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <button type="submit" class="btn btn-primary btn-block">Odoslať</button>
+                        <button type="submit" name="submit-and-continue" class="btn btn-primary btn-block">Odoslať a pokračovať na ďalší komentár</button>
+                        <button type="submit" name="submit-and-quit" class="btn btn-primary btn-block">Odoslať a vrátiť sa na zoznam videí</button>
                     {% endif %}
 
                 </form>
             {% endfor %}
         </div>
 
-    </div>
+    </div>form.fields.first.
 {% endblock %}
 
 {% block js %}
     {% if user.is_authenticated %}
         <script>
-            var comment = '<div class="radio">';
-            comment += '    {{ form.comment_radio_choices.0 }}';
-            comment += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
-            comment += '</div>';
-            comment += '<div class="radio">';
-            comment += '    {{ form.comment_radio_choices.1 }}';
-            comment += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
-            comment += '</div>';
-            comment += '<div class="radio">';
-            comment += '    {{ form.comment_radio_choices.2 }}';
-            comment += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
-            comment += '</div>';
-
-            $('#comment_reaction_section').find('fieldset').html(comment);
-
-
             {% for field in form %}
-                {% if forloop.counter0 != 0 %}
-                    var reply = '<div class="radio">';
-                    reply += '    {{ field.0 }}';
-                    reply += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
-                    reply += '</div>';
-                    reply += '<div class="radio">';
-                    reply += '    {{ field.1 }}';
-                    reply += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
-                    reply += '</div>';
-                    reply += '<div class="radio">';
-                    reply += '    {{ field.2 }}';
-                    reply += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
-                    reply += '</div>';
+                var content = '<div class="radio">';
+                content += '    {{ field.0 }}';
+                content += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+                content += '</div>';
+                content += '<div class="radio">';
+                content += '    {{ field.1 }}';
+                content += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+                content += '</div>';
+                content += '<div class="radio">';
+                content += '    {{ field.2 }}';
+                content += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+                content += '</div>';
 
-                    $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(reply);
+                {% if forloop.counter0 == 0 %}
+                    $('#comment_reaction_section').find('fieldset').html(content);
+                {% else %}
+                    $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(content);
                 {% endif %}
             {% endfor %}
         </script>

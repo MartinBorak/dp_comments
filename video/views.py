@@ -49,9 +49,8 @@ class DetailView(generic.DetailView):
 
 
 def radio_form_view(request, comment_pk=0):
-    reply_count = len(request.POST) - 2
+    reply_count = len(request.POST) - 3
     form = RadioForm(request.POST or None, reply_count=reply_count)
-
     values = []
 
     if form.is_valid():
@@ -180,7 +179,10 @@ def radio_form_view(request, comment_pk=0):
 
         i += 1
 
-    return redirect('video:index')
+    if 'submit-and-continue' in request.POST:
+        return redirect('video:detail', pk=comment.video.id)
+    else:
+        return redirect('video:index')
 
 
 class UserRegisterView(View):
