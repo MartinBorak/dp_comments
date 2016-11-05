@@ -26,7 +26,6 @@
                                         {{ comment.author.name }}
                                     </strong>
                                 </p>
-                                <p>{{ comment.good }} / {{ comment.neutral }} / {{ comment.bad }} / {{ comment.reactions }}</p>
                                 {{ comment.text }}
                             </div>
                             <div id="comment_reaction_section" class="col-md-1 scorable-reactions">
@@ -46,7 +45,6 @@
                                                         {{ reply.author.name }}
                                                     </strong>
                                                 </p>
-                                                <p>{{ reply.good }} / {{ reply.neutral }} / {{ reply.bad }} / {{ reply.reactions }}</p>
                                                 {{ reply.text }}
                                             </div>
                                             <div id="reply_reaction_section_{{ forloop.counter }}" class="col-md-1 scorable-reactions">
@@ -68,6 +66,62 @@
             {% endfor %}
         </div>
 
+    </div>
+
+    <div class="help-button">
+        <button class="btn btn-info btn-lg btn-circle" data-toggle="modal" data-target="#help_modal"><strong>?</strong></button>
+    </div>
+
+    <div id="help_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Pokyny</h2>
+                </div>
+                <div class="modal-body">
+                    <p>Aplikácia slúži na značkovanie komentárov youtube videí. Ku každému videu je k dispozícii
+                        niekoľko komentárov spolu s odpoveďami na tieto komentáre. Cieľom je identifikovať haterské
+                        príspevky.</p>
+                    <p>Hodnotiť komentáre môžete aj bez pozretia videa, v prípade neistoty však môže výrazne pomôcť
+                        video si pozrieť.</p>
+                    <p>Ohodnoťte komentár a všetky jeho odpovede, potom sa rozhodnite či chcete ohodnotiť
+                        ďalší komentár k tomu istému videu, alebo prejsť na iné video.</p>
+                    <hr class="style">
+                    <h3>Čo je to haterský príspevok</h3>
+                    <p>Haterský príspevok obsahuje verbálny útok na autora videa, subjekt videa, autora komentára alebo
+                        im blízku osobu. Na rozdiel od kritiky musí byť subjektívne negatívne citovo zafarbený.</p>
+                    <p>Príspevok, s ktorým síce vnútorne nesúhlasíte, no nespĺňa predchádzajúce kritériá, neoznačujte
+                        za haterský.</p>
+                    <h4>Príklady</h4>
+                    <p><strong>Haterský príspevok</strong></p>
+                    <div class="bg-red">
+                        <p><strong>You guys are corrupt and satanic, if you were not, you would see the corrupt ways
+                            of the Clintons, Trump is going to win, you guys are idiots!!! You'll rot in hell along
+                            with the Clintons and the Obamas.</strong></p>
+                    </div>
+                    <br>
+                    <p><strong>Korektný príspevok</strong></p>
+                    <div class="bg-green">
+                        <p><strong>I disagree with your views. I don't trust Clinton and I think Trump is the best candidate
+                            ever.</strong></p>
+                    </div>
+                    <hr class="style">
+                    <h3>Hodnotenie komentára/odpovede</h3>
+                    <ul>
+                        <li><span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> - príspevok je v
+                            poriadku</li>
+                        <li><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> - nedokážem
+                            sa rozhodnúť (pokúste sa používať minimálne)</li>
+                        <li><span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> - haterský
+                            príspevok</li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

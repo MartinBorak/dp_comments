@@ -64,4 +64,38 @@ hr.style {
     }
 }
 
+.help-button {
+    position: fixed;
+    top: 75px;
+    right: 10%;
+}
 
+.btn-circle {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 38px;
+    line-height: 1.33;
+    border-radius: 35px;
+}
+
+.bg-green {
+    border: solid 1px;
+    padding: 5px;
+    background-color: #69ce57;
+}
+
+.bg-red {
+    border: solid 1px;
+    padding: 5px;
+    background-color: #ce5748;
+}
+
+.bg-green p,
+.bg-red p {
+    margin: 0;
+}
+
+#help_modal span {
+    font-size: 20px;
+}
