@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Video(models.Model):
-    video_id = models.CharField(max_length=50, default='')
+    video_id = models.CharField(max_length=100, default='')
     title = models.CharField(max_length=500)
     show = models.BooleanField(default=True)
     # avg_completion_rate = models.FloatField(default=0.0)
@@ -14,7 +14,7 @@ class Video(models.Model):
 
 
 class Author(models.Model):
-    author_id = models.CharField(max_length=50)
+    author_id = models.CharField(max_length=100)
     name = models.CharField(max_length=500)
     # completion_rate = models.FloatField(default=0.0)
 
@@ -24,7 +24,7 @@ class Author(models.Model):
 
 class Comment(models.Model):
     video = models.ForeignKey(Video, on_delete=models.CASCADE)
-    comment_id = models.CharField(max_length=50, default='')
+    comment_id = models.CharField(max_length=100, default='')
     text = models.TextField(max_length=500)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     good = models.IntegerField(default=0)
@@ -46,7 +46,7 @@ class Comment(models.Model):
 
 class Reply(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
-    reply_id = models.CharField(max_length=50, default='')
+    reply_id = models.CharField(max_length=100, default='')
     text = models.TextField()
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     good = models.IntegerField(default=0)
