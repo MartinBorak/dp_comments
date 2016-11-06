@@ -1,5 +1,6 @@
 Django==1.10.2
 django-extensions==1.7.4
 gunicorn==19.4.5
-whitenoise==3.2.2
+pytz==2016.7
 six==1.10.0
+whitenoise==3.2.2
