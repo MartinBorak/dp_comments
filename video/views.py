@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from .models import Video, Comment, Worker
 from .forms import RegisterForm, RadioForm
-from six import moves
 
 
 class IndexView(generic.ListView):
@@ -19,11 +18,11 @@ class IndexView(generic.ListView):
 
         if user.is_authenticated():
             user_videos = user.worker.videos.all()
-            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos).order_by('-priority')
+            main_set = Video.objects.filter(show=True).exclude(pk__in=user_videos).order_by('-priority', 'pk')
         else:
-            main_set = Video.objects.filter(show=True).order_by('-priority')
+            main_set = Video.objects.filter(show=True).order_by('-priority', 'pk')
 
-        subset = [main_set[i] for i in random.sample(moves.range(30), 10)]
+        subset = [main_set[i] for i in random.sample(range(30), 10)]
 
         return subset
 
@@ -42,7 +41,7 @@ class DetailView(generic.DetailView):
         else:
             comments = context['object'].comment_set.filter(show=True)
 
-        context['comments'] = [comments[i] for i in random.sample(moves.range(len(comments)), 1)]
+        context['comments'] = [comments[i] for i in random.sample(range(len(comments)), 1)]
         context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
 
         return context
