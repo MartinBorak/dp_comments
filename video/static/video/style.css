@@ -108,3 +108,7 @@ hr.style {
 .comment-section form button {
     margin-left: 10px;
 }
+
+#profile_info {
+    font-size: 17px;
+}

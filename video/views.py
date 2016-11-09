@@ -1,5 +1,5 @@
 import random
-from django.db.models import F
+from django.db.models import F, Sum
 from django.views import generic
 from django.views.generic import View
 from django.shortcuts import render, redirect
@@ -245,10 +245,35 @@ class LeaderBoardView(generic.ListView):
 
     def get_queryset(self):
         main_set = Worker.objects.all().order_by('-score')
-        subset = main_set[0:10]
+        subset = main_set[:10]
 
         return subset
 
 
 class ProfileView(generic.TemplateView):
     template_name = 'video/profile.html'
+
+    def replies_count(self):
+        user = self.request.user
+        comments = user.worker.comments.all()
+        count = 0
+
+        for comment in comments:
+            count += comment.reply_set.count()
+
+        return count
+
+    # def get_context_data(self):
+    #     user = self.request.user
+    #
+    #     context = {'worker': user.worker}
+    #
+    #     comments = user.worker.comments.all()
+    #     count = 0
+    #
+    #     for comment in comments:
+    #         count += comment.reply_set.count
+    #
+    #     context['replies_count'] = count
+    #
+    #     return context
