@@ -47,15 +47,20 @@ hr.style {
 .comment,
 .reply {
     background-color: #101010;
-    margin-bottom: 3px;
+    margin-bottom: 8px;
     padding: 10px;
     border: 2px solid #101010;
     border-radius: 5px;
+    font-size: 17px;
 }
 
 .comment div,
 .reply div {
     color: #ffffff;
+}
+
+#help_modal {
+    font-size: 17px;
 }
 
 @media screen and (min-width: 993px) {
@@ -98,4 +103,8 @@ hr.style {
 
 #help_modal span {
     font-size: 20px;
+}
+
+.comment-section form button {
+    margin-left: 10px;
 }

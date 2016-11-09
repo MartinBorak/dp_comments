@@ -12,7 +12,7 @@
             <iframe width="700" height="394" src="https://www.youtube.com/embed/{{ video.video_id }}" frameborder="0" allowfullscreen></iframe>
         </div>
 
-        <h3>Komentár</h3>
+        <h2>Komentár</h2>
 
         <div class="row comment-section">
             {% for comment in comments %}
@@ -58,8 +58,8 @@
                     </div>
 
                     {% if user.is_authenticated %}
-                        <button type="submit" name="submit-and-continue" class="btn btn-primary btn-block">Odoslať a pokračovať na ďalší komentár</button>
-                        <button type="submit" name="submit-and-quit" class="btn btn-primary btn-block">Odoslať a vrátiť sa na zoznam videí</button>
+                        <button type="submit" name="submit-and-quit" class="btn btn-primary btn-lg pull-right">Odoslať a vrátiť sa na zoznam videí</button>
+                        <button type="submit" name="submit-and-continue" class="btn btn-primary btn-lg pull-right">Odoslať a pokračovať na ďalší komentár</button>
                     {% endif %}
 
                 </form>
@@ -93,18 +93,18 @@
                         im blízku osobu. Na rozdiel od kritiky musí byť subjektívne negatívne citovo zafarbený.</p>
                     <p>Príspevok, s ktorým síce vnútorne nesúhlasíte, no nespĺňa predchádzajúce kritériá, neoznačujte
                         za haterský.</p>
-                    <h4>Príklady</h4>
+                    <h4><strong>Príklady</strong></h4>
                     <p><strong>Haterský príspevok</strong></p>
                     <div class="bg-red">
-                        <p><strong>You guys are corrupt and satanic, if you were not, you would see the corrupt ways
+                        <p>You guys are corrupt and satanic, if you were not, you would see the corrupt ways
                             of the Clintons, Trump is going to win, you guys are idiots!!! You'll rot in hell along
-                            with the Clintons and the Obamas.</strong></p>
+                            with the Clintons and the Obamas.</p>
                     </div>
                     <br>
                     <p><strong>Korektný príspevok</strong></p>
                     <div class="bg-green">
-                        <p><strong>I disagree with your views. I don't trust Clinton and I think Trump is the best candidate
-                            ever.</strong></p>
+                        <p>I disagree with your views. I don't trust Clinton and I think Trump is the best candidate
+                            ever.</p>
                     </div>
                     <hr class="style">
                     <h3>Hodnotenie komentára/odpovede</h3>
@@ -118,7 +118,7 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
                 </div>
             </div>
         </div>
