@@ -118,6 +118,9 @@
                     </ul>
                 </div>
                 <div class="modal-footer">
+                    <div class="checkbox pull-left">
+                        <label><input id="modal_checkbox" type="checkbox" value="">Zobrazovať pri každom novom videu</label>
+                    </div>
                     <button type="button" class="btn btn-default" data-dismiss="modal">Zatvoriť</button>
                 </div>
             </div>
@@ -148,6 +151,27 @@
                     $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(content);
                 {% endif %}
             {% endfor %}
+
+            var show = getCookie('show_modal');
+
+            if (show == "") {
+                document.cookie = "show_modal=true; path=/";
+            }
+
+            if (getCookie('show_modal') === 'true') {
+                $('#modal_checkbox').prop('checked', true);
+                {% if show_modal %}
+                $('#help_modal').modal('toggle');
+                {% endif %}
+            }
+
+            $('#modal_checkbox').change(function() {
+                if($(this).is(":checked")) {
+                    document.cookie = "show_modal=true; path=/";
+                } else {
+                    document.cookie = "show_modal=false; path=/";
+                }
+            });
         </script>
     {% endif %}
 {% endblock %}

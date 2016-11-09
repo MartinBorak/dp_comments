@@ -1,10 +1,12 @@
 import random
-from django.db.models import F, Sum
+from django.db.models import F
+from django.http import HttpResponse
 from django.views import generic
 from django.views.generic import View
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
+from django.template import loader
 from .models import Video, Comment, Worker
 from .forms import RegisterForm, RadioForm
 
@@ -27,24 +29,31 @@ class IndexView(generic.ListView):
         return subset
 
 
-class DetailView(generic.DetailView):
-    model = Video
-    template_name = 'video/detail.html'
+def detail_view(request, pk, show):
+    video = Video.objects.get(pk=pk)
+    template = loader.get_template('video/detail.html')
 
-    def get_context_data(self, **kwargs):
-        context = super(DetailView, self).get_context_data(**kwargs)
-        user = self.request.user
+    user = request.user
 
-        if user.is_authenticated():
-            user_comments = user.worker.comments.all()
-            comments = context['object'].comment_set.filter(show=True).exclude(pk__in=user_comments)
-        else:
-            comments = context['object'].comment_set.filter(show=True)
+    if user.is_authenticated():
+        user_comments = user.worker.comments.all()
+        comments = video.comment_set.filter(show=True).exclude(pk__in=user_comments)
+    else:
+        comments = video.comment_set.filter(show=True)
 
-        context['comments'] = [comments[i] for i in random.sample(range(len(comments)), 1)]
-        context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
+    context = {
+        'video': video,
+        'comments': [comments[i] for i in random.sample(range(len(comments)), 1)]
+    }
 
-        return context
+    context['form'] = RadioForm(reply_count=len(context['comments'][0].reply_set.all()))
+
+    if show == 't':
+        context['show_modal'] = True
+    else:
+        context['show_modal'] = False
+
+    return HttpResponse(template.render(context, request))
 
 
 def radio_form_view(request, comment_pk=0):
@@ -179,7 +188,7 @@ def radio_form_view(request, comment_pk=0):
         i += 1
 
     if 'submit-and-continue' in request.POST:
-        return redirect('video:detail', pk=comment.video.id)
+        return redirect('video:detail', pk=comment.video.id, show='f')
     else:
         return redirect('video:index')
 
@@ -262,18 +271,3 @@ class ProfileView(generic.TemplateView):
             count += comment.reply_set.count()
 
         return count
-
-    # def get_context_data(self):
-    #     user = self.request.user
-    #
-    #     context = {'worker': user.worker}
-    #
-    #     comments = user.worker.comments.all()
-    #     count = 0
-    #
-    #     for comment in comments:
-    #         count += comment.reply_set.count
-    #
-    #     context['replies_count'] = count
-    #
-    #     return context
