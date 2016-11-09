@@ -20,7 +20,19 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container">
+    <div id="leaderboard" class="container">
+        <div class="alert alert-info">
+            <div class="row">
+                <div class="col-md-1">
+                    <strong>Info:</strong>
+                </div>
+                <div class="col-md-11">
+                    Používatelia s najvyšším skóre získajú sladkú (horkú) odmenu. <br>
+                    Skóre = (2 * označkované komentáre) + označkované odpovede + (5 * skompletizované videá)
+                </div>
+            </div>
+        </div>
+
         <h1>LeaderBoard</h1>
 
         <table class="table">
