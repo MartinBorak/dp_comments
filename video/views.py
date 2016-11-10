@@ -68,61 +68,47 @@ def radio_form_view(request, comment_pk=0):
             values.append(str(form.cleaned_data['reply_' + str(i)]))
 
     comment = Comment.objects.get(pk=comment_pk)
-    video = comment.video
-    replies = comment.reply_set.all()
 
-    if values[0] == 'opt0':
-        comment.good += 1
-    elif values[0] == 'opt1':
-        comment.neutral += 1
-    elif values[0] == 'opt2':
-        comment.bad += 1
-    else:
-        return redirect('video:index')
+    if comment.show:
+        video = comment.video
+        replies = comment.reply_set.all()
 
-    comment.reactions += 1
+        if values[0] == 'opt0':
+            comment.good += 1
+        elif values[0] == 'opt1':
+            comment.neutral += 1
+        elif values[0] == 'opt2':
+            comment.bad += 1
+        else:
+            return redirect('video:index')
 
-    # SET WORKER SCORE
-    worker = request.user.worker
-    worker.comments.add(comment)
-    worker.score += 2 + comment.reply_set.count()
+        comment.reactions += 1
 
-    comment_set = video.comment_set.all()
+        # SET WORKER SCORE
+        worker = request.user.worker
+        worker.comments.add(comment)
+        worker.score += 2 + comment.reply_set.count()
 
-    is_all = True
+        comment_set = video.comment_set.all()
 
-    for c in comment_set:
-        if c not in worker.comments.all():
-            is_all = False
-            break
+        is_all = True
 
-    if is_all:
-        worker.videos.add(video)
-        worker.score += 5
+        for c in comment_set:
+            if c not in worker.comments.all():
+                is_all = False
+                break
 
-    worker.save()
+        if is_all:
+            worker.videos.add(video)
+            worker.score += 5
 
-    # DO NOT DISPLAY COMMENTS WITH MORE THAN 3 REACTIONS
-    if comment.reactions >= 3:
-        comment.show = False
+        worker.save()
 
-        author = comment.author
-        authors_comments = author.comment_set.all()
-        authors_replies = author.reply_set.all()
-        author_videos = []
+        # DO NOT DISPLAY COMMENTS WITH MORE THAN 3 REACTIONS
+        if comment.reactions >= 3:
+            comment.show = False
 
-        for c in authors_comments:
-            author_videos.append(c.video.pk)
-
-        for r in authors_replies:
-            author_videos.append(r.comment.video.pk)
-
-        Video.objects.filter(pk__in=author_videos).update(priority=F('priority') - 3)
-
-        comment.reply_set.update(show=False)
-
-        for rep in comment.reply_set.all():
-            author = rep.author
+            author = comment.author
             authors_comments = author.comment_set.all()
             authors_replies = author.reply_set.all()
             author_videos = []
@@ -135,44 +121,32 @@ def radio_form_view(request, comment_pk=0):
 
             Video.objects.filter(pk__in=author_videos).update(priority=F('priority') - 3)
 
-        show_set = video.comment_set.filter(show=True)
+            comment.reply_set.update(show=False)
 
-        if not show_set:
-            video.show = False
-            video.save()
+            for rep in comment.reply_set.all():
+                author = rep.author
+                authors_comments = author.comment_set.all()
+                authors_replies = author.reply_set.all()
+                author_videos = []
 
-    comment.save()
+                for c in authors_comments:
+                    author_videos.append(c.video.pk)
 
-    # INCREASE PRIORITY OF VIDEOS WITH AUTHOR
-    author = comment.author
-    authors_comments = author.comment_set.all()
-    authors_replies = author.reply_set.all()
-    author_videos = []
+                for r in authors_replies:
+                    author_videos.append(r.comment.video.pk)
 
-    for c in authors_comments:
-        author_videos.append(c.video.pk)
+                Video.objects.filter(pk__in=author_videos).update(priority=F('priority') - 3)
 
-    for r in authors_replies:
-        author_videos.append(r.comment.video.pk)
+            show_set = video.comment_set.filter(show=True)
 
-    Video.objects.filter(pk__in=author_videos).update(priority=F('priority') + 1)
+            if not show_set:
+                video.show = False
+                video.save()
 
-    i = 1
+        comment.save()
 
-    for reply in replies:
-        if values[i] == 'opt0':
-            reply.good += 1
-        elif values[i] == 'opt1':
-            reply.neutral += 1
-        elif values[i] == 'opt2':
-            reply.bad += 1
-        else:
-            return redirect('video:index')
-
-        reply.reactions += 1
-        replies[i - 1].save()
-
-        author = reply.author
+        # INCREASE PRIORITY OF VIDEOS WITH AUTHOR
+        author = comment.author
         authors_comments = author.comment_set.all()
         authors_replies = author.reply_set.all()
         author_videos = []
@@ -185,10 +159,40 @@ def radio_form_view(request, comment_pk=0):
 
         Video.objects.filter(pk__in=author_videos).update(priority=F('priority') + 1)
 
-        i += 1
+        i = 1
 
-    if 'submit-and-continue' in request.POST:
-        return redirect('video:detail', pk=comment.video.id, show='f')
+        for reply in replies:
+            if values[i] == 'opt0':
+                reply.good += 1
+            elif values[i] == 'opt1':
+                reply.neutral += 1
+            elif values[i] == 'opt2':
+                reply.bad += 1
+            else:
+                return redirect('video:index')
+
+            reply.reactions += 1
+            replies[i - 1].save()
+
+            author = reply.author
+            authors_comments = author.comment_set.all()
+            authors_replies = author.reply_set.all()
+            author_videos = []
+
+            for c in authors_comments:
+                author_videos.append(c.video.pk)
+
+            for r in authors_replies:
+                author_videos.append(r.comment.video.pk)
+
+            Video.objects.filter(pk__in=author_videos).update(priority=F('priority') + 1)
+
+            i += 1
+
+        if 'submit-and-continue' in request.POST:
+            return redirect('video:detail', pk=comment.video.id, show='f')
+        else:
+            return redirect('video:index')
     else:
         return redirect('video:index')
 
