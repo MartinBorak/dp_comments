@@ -132,17 +132,14 @@
     {% if user.is_authenticated %}
         <script>
             {% for field in form %}
-                var content = '<div class="radio">';
-                content += '    {{ field.0 }}';
-                content += '    <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+                var content = '<div class="radio choice-1">';
+                content += '{{ field.0 }}';
                 content += '</div>';
-                content += '<div class="radio">';
-                content += '    {{ field.1 }}';
-                content += '    <span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>';
+                content += '<div class="radio choice-2">';
+                content += '{{ field.1 }}';
                 content += '</div>';
-                content += '<div class="radio">';
-                content += '    {{ field.2 }}';
-                content += '    <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+                content += '<div class="radio choice-3">';
+                content += '{{ field.2 }}';
                 content += '</div>';
 
                 {% if forloop.counter0 == 0 %}
@@ -151,6 +148,10 @@
                     $('#reply_reaction_section_' + {{ forloop.counter0 }}).find('fieldset').html(content);
                 {% endif %}
             {% endfor %}
+
+            $('.choice-1').find('label').append('<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>');
+            $('.choice-2').find('label').append('<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>');
+            $('.choice-3').find('label').append('<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>');
 
             var show = getCookie('show_modal');
 
