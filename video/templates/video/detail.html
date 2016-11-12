@@ -153,6 +153,26 @@
             $('.choice-2').find('label').append('<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>');
             $('.choice-3').find('label').append('<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>');
 
+            $('.choice-1').find('label').addClass('label-1');
+            $('.choice-2').find('label').addClass('label-2');
+            $('.choice-3').find('label').addClass('label-3');
+
+            $('.label-1').click(function () {
+                $(this).parents('.scorable').css({'background-color': '#69ce57',
+                                                    'border-color': '#69ce57'});
+                $(this).parents('.scorable').find('div').css('color', '#000000')
+            });
+
+            $('.label-2').click(function () {
+                $(this).parents('.scorable').css({'background-color': '#cec06c', 'border-color': '#cec06c'});
+                $(this).parents('.scorable').find('div').css('color', '#000000')
+            });
+
+            $('.label-3').click(function () {
+                $(this).parents('.scorable').css({'background-color': '#ce5748', 'border-color': '#ce5748'});
+                $(this).parents('.scorable').find('div').css('color', '#000000')
+            });
+
             var show = getCookie('show_modal');
 
             if (show == "") {

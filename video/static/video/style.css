@@ -39,24 +39,23 @@ hr.style {
 }
 
 .comment-section {
-    /*background-color: #101010;*/
     padding: 10px;
     border-radius: 5px;
 }
 
-.comment,
-.reply {
+.scorable {
     background-color: #101010;
     margin-bottom: 8px;
     padding: 10px;
     border: 2px solid #101010;
     border-radius: 5px;
     font-size: 17px;
+    transition : background-color 0.5s ease-in-out, border-color 0.5s ease-in-out;
 }
 
-.comment div,
-.reply div {
+.scorable div {
     color: #ffffff;
+    transition : color 0.5s ease-in-out;
 }
 
 #help_modal {
