@@ -41,6 +41,9 @@ def detail_view(request, pk, show):
     else:
         comments = video.comment_set.filter(show=True)
 
+    if not comments:
+        return redirect('video:index')
+
     context = {
         'video': video,
         'comments': [comments[i] for i in random.sample(range(len(comments)), 1)]
