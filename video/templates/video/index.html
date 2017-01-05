@@ -5,7 +5,9 @@
         {% for video in all_videos %}
             <div class="row my-row">
                 <div class="col-sm-2">
-                    <img class="thumb" src="https://i.ytimg.com/vi/{{ video.video_id }}/hqdefault.jpg"/>
+                    <a href="{% url 'video:detail' pk=video.id show='t' %}">
+                        <img class="thumb" src="https://i.ytimg.com/vi/{{ video.video_id }}/hqdefault.jpg"/>
+                    </a>
                 </div>
                 <div class="col-sm-10">
                     <a href="{% url 'video:detail' pk=video.id show='t' %}">
