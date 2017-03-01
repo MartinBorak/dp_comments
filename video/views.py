@@ -260,7 +260,7 @@ class LeaderBoardView(generic.ListView):
     context_object_name = 'workers'
 
     def get_queryset(self):
-        main_set = Worker.objects.all().order_by('-score')
+        main_set = Worker.objects.filter(user__is_staff=False).order_by('-score')
         subset = main_set[:10]
 
         return subset
